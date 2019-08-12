@@ -31,18 +31,21 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void initState() {
     _controller =
-        AnimationController(vsync: this, duration: Duration(microseconds: 500));
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     animation = Tween<double>(
       begin: 0,
       end: 300,
     ).animate(_controller)
+      ..addStatusListener((status) {
+        setState(() {});
+      });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: new AnimatedLogo(animation: animation),
+      body: new AnimatedLogoOnBuilder(animation: animation),
       floatingActionButton: FloatingActionButton(
         onPressed: _run,
         tooltip: 'Start',
@@ -62,8 +65,8 @@ class _MyHomePageState extends State<MyHomePage>
   }
 }
 
-class AnimatedLogo extends AnimatedWidget {
-  const AnimatedLogo({
+class AnimatedLogoSimple extends AnimatedWidget {
+  const AnimatedLogoSimple({
     Key key,
     @required this.animation,
   }) : super(key: key, listenable: animation);
@@ -75,6 +78,34 @@ class AnimatedLogo extends AnimatedWidget {
     return Center(
       child: FlutterLogo(
         size: animation.value,
+      ),
+    );
+  }
+}
+
+class AnimatedLogoOnBuilder extends StatelessWidget {
+  const AnimatedLogoOnBuilder({
+    Key key,
+    @required this.animation,
+  }) : super(key: key);
+
+  final Animation<double> animation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: AnimatedBuilder(
+        builder: (ctx, child) {
+          return Center(
+            child: Container(
+              height: animation.value,
+              width: animation.value,
+              child: child,
+            ),
+          );
+        },
+        animation: animation,
+        child: FlutterLogo(),
       ),
     );
   }
