@@ -46,7 +46,9 @@ class _MyHomePageState extends State<MyHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: FlutterLogo(),
+        child: FlutterLogo(
+          size: animation.value,
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _run,
@@ -57,6 +59,6 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   void _run() {
-    //todo dtart animation
+    _controller.forward();
   }
 }
