@@ -28,13 +28,15 @@ class _MyHomePageState extends State<MyHomePage>
   Animation<double> animation;
   AnimationController _controller;
 
+  double top = 0, left = 0;
+
   @override
   void initState() {
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     animation = Tween<double>(
       begin: 0,
-      end: 300,
+      end: 200,
     ).animate(_controller)
       ..addStatusListener((status) {
         setState(() {});
@@ -45,7 +47,13 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: new AnimatedLogoOnBuilder(animation: animation),
+      body: Stack(children: [
+        AnimatedPositioned(
+            duration: Duration(milliseconds: 500),
+            left: left,
+            top: top,
+            child: new AnimatedLogoOnBuilder(animation: animation)),
+      ]),
       floatingActionButton: FloatingActionButton(
         onPressed: _run,
         tooltip: 'Start',
@@ -55,7 +63,18 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   void _run() {
-    !_controller.isCompleted ? _controller.forward() : _controller.reverse();
+    if (!_controller.isCompleted) {
+      _controller.forward();
+      setState(() {
+        top = 200;
+      });
+    } else {
+      _controller.reverse();
+      top = 0;
+      setState(() {
+        
+      });
+    }
   }
 
   @override
@@ -93,20 +112,16 @@ class AnimatedLogoOnBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AnimatedBuilder(
-        builder: (ctx, child) {
-          return Center(
-            child: Container(
-              height: animation.value,
-              width: animation.value,
-              child: child,
-            ),
-          );
-        },
-        animation: animation,
-        child: FlutterLogo(),
-      ),
+    return AnimatedBuilder(
+      builder: (ctx, child) {
+        return Container(
+          height: animation.value,
+          width: animation.value,
+          child: child,
+        );
+      },
+      animation: animation,
+      child: FlutterLogo(),
     );
   }
 }
