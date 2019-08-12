@@ -15,23 +15,33 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key,}) : super(key: key);
+  MyHomePage({
+    Key key,
+  }) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
-
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
   Animation<double> animation;
   AnimationController _controller;
-  
+
   @override
   void initState() {
-    _controller = AnimationController(vsync: this, duration: Duration(microseconds: 500));
+    _controller =
+        AnimationController(vsync: this, duration: Duration(microseconds: 500));
+    animation = Tween<double>(
+      begin: 0,
+      end: 300,
+    ).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         onPressed: _run,
         tooltip: 'Start',
         child: Icon(Icons.play_arrow),
-      ), 
+      ),
     );
   }
 
