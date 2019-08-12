@@ -21,9 +21,15 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
 
+  Animation<double> animation;
+  AnimationController _controller;
+  
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
