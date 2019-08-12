@@ -28,8 +28,10 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   
   @override
   void initState() {
+    _controller = AnimationController(vsync: this, duration: Duration(microseconds: 500));
     super.initState();
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
