@@ -53,12 +53,18 @@ class _MyHomePageState extends State<MyHomePage>
       floatingActionButton: FloatingActionButton(
         onPressed: _run,
         tooltip: 'Start',
-        child: Icon(Icons.play_arrow),
+        child: Icon(_controller.isCompleted ? Icons.refresh : Icons.play_arrow),
       ),
     );
   }
 
   void _run() {
-    _controller.forward();
+    !_controller.isCompleted ? _controller.forward() : _controller.reverse();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
