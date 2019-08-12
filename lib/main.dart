@@ -117,8 +117,19 @@ class AnimatedLogoOnBuilder extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => SecondScreen(),
+                  PageRouteBuilder(
+                    pageBuilder: (BuildContext context, Animation animation,
+                            Animation secondaryAnimation) =>
+                        SecondScreen(),
+                    transitionDuration: Duration(seconds: 2),
+                    transitionsBuilder:
+                        (ctx, animation, seconadaryAnimation, child) =>
+                            SlideTransition(
+                      position:
+                          Tween(begin: Offset(1, 0.5), end: Offset.zero)
+                              .animate(animation),
+                      child: child,
+                    ),
                   ),
                 );
               },
