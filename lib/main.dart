@@ -36,20 +36,13 @@ class _MyHomePageState extends State<MyHomePage>
       begin: 0,
       end: 300,
     ).animate(_controller)
-      ..addListener(() {
-        setState(() {});
-      });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: FlutterLogo(
-          size: animation.value,
-        ),
-      ),
+      body: new AnimatedLogo(animation: animation),
       floatingActionButton: FloatingActionButton(
         onPressed: _run,
         tooltip: 'Start',
@@ -66,5 +59,23 @@ class _MyHomePageState extends State<MyHomePage>
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+}
+
+class AnimatedLogo extends AnimatedWidget {
+  const AnimatedLogo({
+    Key key,
+    @required this.animation,
+  }) : super(key: key, listenable: animation);
+
+  final Animation<double> animation;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: FlutterLogo(
+        size: animation.value,
+      ),
+    );
   }
 }
