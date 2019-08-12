@@ -1,3 +1,4 @@
+import 'package:anim_playground/new_route.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -48,11 +49,7 @@ class _MyHomePageState extends State<MyHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        AnimatedPositioned(
-            duration: Duration(milliseconds: 500),
-            left: left,
-            top: top,
-            child: new AnimatedLogoOnBuilder(animation: animation)),
+        new AnimatedLogoOnBuilder(animation: animation),
       ]),
       floatingActionButton: FloatingActionButton(
         onPressed: _run,
@@ -65,15 +62,8 @@ class _MyHomePageState extends State<MyHomePage>
   void _run() {
     if (!_controller.isCompleted) {
       _controller.forward();
-      setState(() {
-        top = 200;
-      });
     } else {
       _controller.reverse();
-      top = 0;
-      setState(() {
-        
-      });
     }
   }
 
@@ -95,8 +85,14 @@ class AnimatedLogoSimple extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: FlutterLogo(
-        size: animation.value,
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => SecondScreen()));
+        },
+        child: FlutterLogo(
+          size: animation.value,
+        ),
       ),
     );
   }
@@ -114,10 +110,21 @@ class AnimatedLogoOnBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       builder: (ctx, child) {
-        return Container(
-          height: animation.value,
-          width: animation.value,
-          child: child,
+        return Center(
+          child: Container(
+            height: animation.value,
+            width: animation.value,
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => SecondScreen(),
+                  ),
+                );
+              },
+              child: child,
+            ),
+          ),
         );
       },
       animation: animation,
