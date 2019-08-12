@@ -125,15 +125,17 @@ class AnimatedLogoOnBuilder extends StatelessWidget {
                     transitionsBuilder:
                         (ctx, animation, seconadaryAnimation, child) =>
                             SlideTransition(
-                      position:
-                          Tween(begin: Offset(1, 0.5), end: Offset.zero)
-                              .animate(animation),
+                      position: Tween(begin: Offset(1, 0.5), end: Offset.zero)
+                          .animate(animation),
                       child: child,
                     ),
                   ),
                 );
               },
-              child: child,
+              child: Hero(
+                tag: 'hero',
+                child: child,
+              ),
             ),
           ),
         );

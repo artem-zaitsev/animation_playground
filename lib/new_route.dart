@@ -7,7 +7,20 @@ class SecondScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         color: Colors.amber,
-        child: Center(child: Text("Another screen")),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Text("Another screen"),
+              Hero(
+                child: FlutterLogo(
+                  size: 100,
+                ),
+                tag: 'hero',
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
