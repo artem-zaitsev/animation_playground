@@ -29,7 +29,8 @@ class _MyHomePageState extends State<MyHomePage>
   Animation<double> animation;
   AnimationController _controller;
 
-  double top = 0, left = 0;
+  bool _completed = false;
+  double top = 0, bottom = 400;
 
   @override
   void initState() {
@@ -40,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage>
       end: 200,
     ).animate(_controller)
       ..addStatusListener((status) {
-        setState(() {});
+        // setState(() {});
       });
     super.initState();
   }
@@ -48,23 +49,42 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        new AnimatedLogoOnBuilder(animation: animation),
-      ]),
+      body: Stack(
+        children: [
+          AnimatedPositioned(
+            duration: Duration(seconds: 2),
+            curve: Curves.slowMiddle,
+            top: top,
+            bottom: bottom,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Colors.indigo,
+            ),
+          )
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: _run,
         tooltip: 'Start',
-        child: Icon(_controller.isCompleted ? Icons.refresh : Icons.play_arrow),
+        child: Icon(_completed ? Icons.refresh : Icons.play_arrow),
       ),
     );
   }
 
   void _run() {
-    if (!_controller.isCompleted) {
-      _controller.forward();
+    if (!_completed) {
+      top = 400;
+      bottom = 0;
+      // _controller.forward();
     } else {
-      _controller.reverse();
+      // _controller.reverse();
+      top = 0;
+      bottom = 400;
     }
+    setState(() {
+      _completed = !_completed;
+    });
   }
 
   @override
